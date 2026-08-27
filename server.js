@@ -19,4 +19,4 @@ http.createServer((req, res) => {
     response.end();
 
 
-}).listen(1338);   // 4. tells the server what port to be o 
+}).listen(3000);   // 4. tells the server what port to be o 
