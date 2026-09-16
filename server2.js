@@ -22,4 +22,6 @@ http.createServer((req, res) => {
     `);
 }).listen(3001);
 
-console.log("Server running at http://localhost:3001/");
+
+
+console.log("Server running on port 3001");
