@@ -1,0 +1,1 @@
+alert("Welcome to Priyanshi's Full Stack Development Website");
