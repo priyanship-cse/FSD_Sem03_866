@@ -1,13 +1,17 @@
-// Existing student data
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
 let students = [
     {
         id: 1,
-        name: "Rahul",
+        name: "Priyanshi",
         branch: "CSE"
     },
     {
         id: 2,
-        name: "Aman",
+        name: "Nishu",
         branch: "IT"
     }
 ];
@@ -26,6 +30,7 @@ app.get('/students', (req, res) => {
 // POST operation
 // Add new student data
 app.post('/students', (req, res) => {
+      const newStudent = req.body;
     students.push(newStudent);
 
     res.json({
