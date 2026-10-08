@@ -1,41 +1,89 @@
-const express = require("express");
-const app = express();
 
-app.use(express.json());
-app.use(express.static("."));
+async function addBook() {
 
-let books = [];
+    const book = {
+        id: Number(document.getElementById("bookId").value),
+        title: document.getElementById("title").value,
+        author: document.getElementById("author").value,
+        year: Number(document.getElementById("year").value)
+    };
 
-app.get("/books", (req, res) => {
-    res.json(books);
-});
+    await fetch("/books", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(book)
+    });
 
-app.post("/books", (req, res) => {
-    books.push(req.body);
-    res.send("Book Added Successfully");
-});
+    getBooks();
+}
 
-app.put("/books/:id", (req, res) => {
-    const id = req.params.id;
 
-    const index = books.findIndex(book => book.id == id);
+async function getBooks() {
 
-    if (index == -1) {
-        return res.status(404).send("Book Not Found");
-    }
+    const response = await fetch("/books");
+    const books = await response.json();
 
-    books[index] = req.body;
-    res.send("Book Updated Successfully");
-});
+    const list = document.getElementById("bookList");
 
-app.delete("/books/:id", (req, res) => {
-    const id = req.params.id;
+    list.innerHTML = "";
 
-    books = books.filter(book => book.id != id);
+    books.forEach(book => {
 
-    res.send("Book Deleted Successfully");
-});
+        list.innerHTML += `
+            <div class="book">
 
-app.listen(3011, () => {
-    console.log("Server running on port 3011");
-});
+                <div class="book-info">
+                    <b>ID:</b> ${book.id}<br>
+                    <b>Title:</b> ${book.title}<br>
+                    <b>Author:</b> ${book.author}<br>
+                    <b>Year:</b> ${book.year}
+                </div>
+
+                <button class="delete-btn"
+                    onclick="deleteBook(${book.id})">
+                    Delete
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+
+async function updateBook() {
+
+    const id = document.getElementById("bookId").value;
+
+    const book = {
+        id: Number(id),
+        title: document.getElementById("title").value,
+        author: document.getElementById("author").value,
+        year: Number(document.getElementById("year").value)
+    };
+
+    await fetch(`/books/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(book)
+    });
+
+    getBooks();
+}
+
+
+async function deleteBook(id) {
+
+    await fetch(`/books/${id}`, {
+        method: "DELETE"
+    });
+
+    getBooks();
+}
+
+
+getBooks();
+

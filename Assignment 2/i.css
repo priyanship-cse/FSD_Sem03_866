@@ -96,13 +96,18 @@ h2 {
 }
 
 .delete-btn {
+    flex: none;
     background: #e74c3c;
     padding: 8px 15px;
+    width: auto;
+    font-size: 14px;
 }
 
 .delete-btn:hover {
     background: #c0392b;
 }
+
+
 
 @media (max-width: 600px) {
     .buttons {
@@ -114,4 +119,17 @@ h2 {
         align-items: flex-start;
         gap: 10px;
     }
+}
+
+input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+button:hover {
+    background: #4f63c7;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
 }
